@@ -8,7 +8,7 @@ export class SensorController {
   constructor(private readonly eventsGateway: EventsGateway) {}
 
   @Post('data')
-  receiveHardwareData(@Body() data: { temperature: number; humidity: number }) {
+  receiveHardwareData(@Body() data: { temperature: number; humidity: number; power: number }) {
     console.log('Received new sensor data:', data);
     
     // Instantly broadcast this data to anyone looking at the Vue dashboard!

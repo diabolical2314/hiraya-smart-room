@@ -4,6 +4,7 @@ import { io } from 'socket.io-client'
 
 const temperature = ref(0)
 const humidity = ref(0)
+const power = ref(0)
 let socket;
 
 onMounted(() => {
@@ -17,6 +18,7 @@ onMounted(() => {
     // Update the reactive variables instantly
     temperature.value = data.temperature
     humidity.value = data.humidity
+    power.value = data.power || 0
   })
 })
 
@@ -44,6 +46,12 @@ onUnmounted(() => {
           <h2>Humidity</h2>
           <div class="value">{{ humidity }}%</div>
           <p>Current Air Humidity</p>
+        </div>
+
+        <div class="card power">
+          <h2>Power</h2>
+          <div class="value">{{ power }}W</div>
+          <p>Current Power Consumption</p>
         </div>
       </div>
     </div>
@@ -101,6 +109,10 @@ onUnmounted(() => {
 .humidity {
   background: linear-gradient(135deg, #36d1dc, #5b86e5);
 }
+.power {  
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+}
+
 
 .card h2 {
   margin-bottom: 15px;

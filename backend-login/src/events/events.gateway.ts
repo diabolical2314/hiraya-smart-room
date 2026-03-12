@@ -10,8 +10,8 @@ export class EventsGateway {
   server: Server;
 
   // This is the function we will call whenever new hardware data arrives
-  broadcastSensorData(data: { temperature: number; humidity: number }) {
-    // 'sensor_update' is the name of the event Vue will be listening for
+  // Update the data interface to include power: number
+  broadcastSensorData(data: { temperature: number; humidity: number; power: number }) {
     this.server.emit('sensor_update', data); 
   }
 }
