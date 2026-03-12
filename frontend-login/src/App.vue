@@ -1,15 +1,13 @@
 <script setup>
 import { ref } from 'vue'
-import Dashboard from './components/Dashboard.vue' // 1. Import the new component
+import Dashboard from './components/Dashboard.vue'
 
 const email = ref('')
 const password = ref('')
 const message = ref('')
 const isError = ref(false)
 const isLoginMode = ref(true)
-
-// 2. Add a variable to track login status
-const isLoggedIn = ref(false) 
+const isLoggedIn = ref(false)
 
 const handleSubmit = async () => {
   message.value = 'Processing...'
@@ -34,8 +32,7 @@ const handleSubmit = async () => {
       message.value = Array.isArray(data.message) ? data.message[0] : data.message
     } else {
       if (isLoginMode.value) {
-        // 3. IF LOGIN IS SUCCESSFUL, change the state to true!
-        isLoggedIn.value = true 
+        isLoggedIn.value = true
       } else {
         message.value = 'Registration successful! You can now log in.'
         isLoginMode.value = true
@@ -52,77 +49,231 @@ const handleSubmit = async () => {
 <template>
   <Dashboard v-if="isLoggedIn" />
 
-  <main class="login-container" v-else>
-    <form @submit.prevent="handleSubmit" class="login-form">
-      <h2>{{ isLoginMode ? 'System Login' : 'Register New User' }}</h2>
-      
-      <div class="input-group">
-        <label for="email">Email (@gmail.com only)</label>
-        <input v-model="email" type="email" id="email" required />
+  <div class="page-wrapper" v-else>
+    <div class="login-container">
+
+      <!-- LOGO -->
+      <div class="logo-container">
+        <img 
+          src="@/assets/csulogo no bg.png"
+          alt="CSU Logo"
+          class="csu-logo"
+        />
+
+        <h1 class="hero-title">Hiraya</h1>
+        <h1 class="hero-title">Smart-Room</h1>
       </div>
 
-      <div class="input-group">
-        <label for="password">Password (min 6 chars)</label>
-        <input v-model="password" type="password" id="password" required />
+      <!-- Notice -->
+      <div class="notice">
+        {{ isLoginMode ? "New to the website?" : "Already registered?" }}
+
+        <span @click="isLoginMode = !isLoginMode; message = ''">
+          <u v-if="isLoginMode">Click here</u>
+          <span v-else>Login instead.</span>
+        </span>
       </div>
 
-      <button type="submit">{{ isLoginMode ? 'Log In' : 'Register' }}</button>
+      <!-- LOGIN CARD -->
+      <div class="login-card">
 
-      <p class="toggle-text">
-        {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}
-        <a href="#" @click.prevent="isLoginMode = !isLoginMode; message = ''">
-          {{ isLoginMode ? 'Register here' : 'Log in here' }}
-        </a>
-      </p>
+        <input
+          class="custom-input"
+          type="email"
+          placeholder="Email"
+          v-model="email"
+        />
 
-      <p v-if="message" :class="{ 'error-text': isError, 'success-text': !isError }">
-        {{ message }}
-      </p>
-    </form>
-  </main>
+        <input
+          class="custom-input"
+          type="password"
+          placeholder="Password"
+          v-model="password"
+        />
+
+        <button class="btn-login" @click="handleSubmit">
+          {{ isLoginMode ? "Log in" : "Register" }}
+        </button>
+
+        <p v-if="message" :class="{ 'error-text': isError, 'success-text': !isError }">
+          {{ message }}
+        </p>
+
+      </div>
+
+    </div>
+  </div>
 </template>
 
-<style scoped>
-/* Leave your exact login CSS here, unchanged from before */
-.login-container {
+<style >
+
+/* BACKGROUND */
+
+body {
+  margin: 0px;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+
+  background-image: url("@/assets/greenpoto.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-family: Arial, sans-serif;
+
+  padding: 20px;
 }
-.login-form {
-  display: flex;
-  flex-direction: column;
-  width: 320px;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: #f9f9f9;
+
+/* CONTAINER */
+
+.login-container {
+  width: 420px;
 }
-.input-group {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
+
+/* NOTICE */
+
+.notice {
+  background-color: #E0E0E0;
+  padding: 12px;
+  margin-bottom: 25px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  color: #212121;
 }
-input {
-  padding: 0.5rem;
-  margin-top: 0.25rem;
-}
-button {
-  padding: 0.75rem;
-  background-color: #42b883;
-  color: white;
-  border: none;
-  border-radius: 4px;
+
+.notice span:hover{
+  color: #1B5E20;
   cursor: pointer;
-  margin-top: 1rem;
+  font-weight: bold;
 }
-.toggle-text {
-  margin-top: 1rem;
-  font-size: 0.85rem;
+
+/* CARD */
+
+.login-card {
+  background-color: #F2F2F2;
+  padding: 28px;
+  border-radius: 10px;
+  border-bottom: 4px solid #FBC02D;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* LOGO */
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #FFFFFF;
+}
+
+.csu-logo {
+  width: 110px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 70px;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* INPUT */
+
+.custom-input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border: 1px solid #D6D6D6;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  font-size: 13px;
+}
+
+.custom-input:focus {
+  outline: none;
+  border-color: #2E7D32;
+}
+
+/* BUTTON */
+
+.btn-login {
+  width: 150px;
+  background-color: #66BB6A;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+.btn-login:hover {
+  background-color: #2E7D32;
+}
+
+/* MESSAGE */
+
+.error-text {
+  color: red;
+  margin-top: 15px;
   text-align: center;
 }
-.error-text { color: red; margin-top: 1rem; font-size: 0.9rem; text-align: center;}
-.success-text { color: green; margin-top: 1rem; font-size: 0.9rem; text-align: center;}
+
+.success-text {
+  color: green;
+  margin-top: 15px;
+  text-align: center;
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+  .login-container {
+    width: 95%;
+  }
+
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .csu-logo {
+    width: 80px;
+  }
+
+  .login-card {
+    padding: 20px;
+  }
+
+  .custom-input {
+    width: 100%;
+  }
+
+  .btn-login {
+    width: 100%;
+  }
+
+  .notice {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+}
+
 </style>
