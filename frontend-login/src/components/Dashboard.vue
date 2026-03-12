@@ -1,18 +1,48 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { io } from 'socket.io-client'
+
+const temperature = ref(0)
+const humidity = ref(0)
+let socket;
+
+onMounted(() => {
+  // Connect to the NestJS server when the dashboard loads
+  socket = io('http://localhost:3000')
+
+  // Listen for the exact event name we used in NestJS
+  socket.on('sensor_update', (data) => {
+    console.log('Live data received from server!', data)
+    
+    // Update the reactive variables instantly
+    temperature.value = data.temperature
+    humidity.value = data.humidity
+  })
+})
+
+// Clean up the connection if the user logs out or leaves the page
+onUnmounted(() => {
+  if (socket) {
+    socket.disconnect()
+  }
+})
+</script>
+
 <template>
   <div class="dashboard-wrapper">
     <div class="dashboard">
-      <h1>Environmental Monitor</h1>
+      <h1>CCIS Room Monitor</h1>
       
       <div class="cards">
         <div class="card temperature">
           <h2>Temperature</h2>
-          <div class="value">28°C</div>
+          <div class="value">{{ temperature }}°C</div>
           <p>Current Room Temperature</p>
         </div>
 
         <div class="card humidity">
           <h2>Humidity</h2>
-          <div class="value">65%</div>
+          <div class="value">{{ humidity }}%</div>
           <p>Current Air Humidity</p>
         </div>
       </div>
@@ -21,7 +51,6 @@
 </template>
 
 <style scoped>
-/* Scoped means these styles only apply to the dashboard */
 * {
   margin: 0;
   padding: 0;
