@@ -1,19 +1,20 @@
-// src/auth/auth.controller.ts
-import { Body, Controller, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthDto } from './auth.dto';
+import { Controller, Post, Body } from '@nestjs/common';
 
-@Controller('auth')
+@Controller('auth') 
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  
+  // 1. The Login Door (You already have this)
+  @Post('login') 
+  login(@Body() loginData: any) {
+    console.log('Login attempt:', loginData);
+    return { message: 'Successfully hit the login route!' };
+  }
 
+  // 2. The Register Door (ADD THIS NEW BLOCK)
   @Post('register')
-  register(@Body() dto: AuthDto) {
-    return this.authService.register(dto);
+  register(@Body() registerData: any) {
+    console.log('Register attempt:', registerData);
+    return { message: 'Successfully hit the register route!' };
   }
 
-  @Post('login')
-  login(@Body() dto: AuthDto) {
-    return this.authService.login(dto);
-  }
 }

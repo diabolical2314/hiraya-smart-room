@@ -1,17 +1,25 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL") // Defaults to "file:./dev.db"
+  provider = "postgresql"
+  // Remove the env() wrapper entirely
+  url = "postgresql://postgres:mysecretpassword@localhost:5434/smartroom?schema=public"
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String // In a real app, always hash this!
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+}
+
+model SensorData {
+  id          Int      @id @default(autoincrement())
+  temperature Float
+  humidity    Float
+  power       Float?   // Optional power reading
+  createdAt   DateTime @default(now()) 
 }
