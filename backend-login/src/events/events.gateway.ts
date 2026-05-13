@@ -7,11 +7,11 @@ import { Server } from 'socket.io';
 export class EventsGateway {
   
   @WebSocketServer()
-  server: Server;
+  server: Server | undefined;
 
   // This is the function we will call whenever new hardware data arrives
   // Update the data interface to include power: number
   broadcastSensorData(data: { temperature: number; humidity: number; power: number }) {
-    this.server.emit('sensor_update', data); 
+    this.server?.emit('sensor_update', data); 
   }
 }

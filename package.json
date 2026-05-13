@@ -1,8 +1,15 @@
 {
   "dependencies": {
     "@nestjs/platform-socket.io": "^11.1.16",
+    "@nestjs/typeorm": "^11.0.0",
     "@nestjs/websockets": "^11.1.16",
     "axios": "^1.13.6",
-    "socket.io": "^4.8.3"
+    "pdfkit": "^0.18.0",
+    "pg": "^8.20.0",
+    "socket.io": "^4.8.3",
+    "typeorm": "^0.3.28"
+  },
+  "devDependencies": {
+    "@types/pdfkit": "^0.17.5"
   }
 }

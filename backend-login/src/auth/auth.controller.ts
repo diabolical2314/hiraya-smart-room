@@ -1,20 +1,25 @@
 import { Controller, Post, Body } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthDto } from './auth.dto';
 
-@Controller('auth') 
+@Controller('auth')
 export class AuthController {
-  
-  // 1. The Login Door (You already have this)
-  @Post('login') 
-  login(@Body() loginData: any) {
-    console.log('Login attempt:', loginData);
-    return { message: 'Successfully hit the login route!' };
-  }
+  // Inject the service here
+  constructor(private readonly authService: AuthService) {}
 
-  // 2. The Register Door (ADD THIS NEW BLOCK)
   @Post('register')
-  register(@Body() registerData: any) {
-    console.log('Register attempt:', registerData);
-    return { message: 'Successfully hit the register route!' };
+  async register(@Body() dto: AuthDto) {
+    console.log('Register attempt:', dto);
+    
+    // THIS IS THE MISSING LINK: Hand the data to your service!
+    return await this.authService.register(dto);
   }
 
+  @Post('login')
+  async login(@Body() dto: AuthDto) {
+    console.log('Login attempt:', dto);
+    
+    // Hand the data to your service
+    return await this.authService.login(dto);
+  }
 }

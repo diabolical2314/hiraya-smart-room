@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  postgres-db:
+    image: postgres:15
+    container_name: smartroom-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: smartroom
+    ports:
+      - "5435:5432"

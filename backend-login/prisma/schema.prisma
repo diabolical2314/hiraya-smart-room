@@ -6,8 +6,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Remove the env() wrapper entirely
-  url = "postgresql://postgres:mysecretpassword@localhost:5434/smartroom?schema=public"
+  url      = "postgresql://admin:adminpassword@localhost:5435/smartroom?schema=public"
 }
 
 model User {
@@ -20,6 +19,25 @@ model SensorData {
   id          Int      @id @default(autoincrement())
   temperature Float
   humidity    Float
-  power       Float?   // Optional power reading
+  current     Float?   // Optional power reading
+  voltage     Float?   // Optional voltage reading
   createdAt   DateTime @default(now()) 
+  
+  roomId      String?      
+  room        Room?    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}
+
+model Room {
+  id            String       @id
+  name          String       @unique
+  description   String?      // Optional details
+  sensors       SensorData[] 
+  
+  // ── NEW THRESHOLD FIELDS ADDED HERE ──
+  tempThreshold Float        @default(28.0)
+  humThreshold  Float        @default(70.0)
+  pwrThreshold  Float        @default(500.0)
+
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }

@@ -7,9 +7,9 @@ export class AuthDto {
     message: 'Only @gmail.com email addresses are allowed.' 
   })
   @IsNotEmpty()
-  email: string;
+  email: string | undefined;
 
   @MinLength(6, { message: 'Password must be at least 6 characters long.' })
   @IsNotEmpty()
-  password: string;
+  password: string | undefined;
 }

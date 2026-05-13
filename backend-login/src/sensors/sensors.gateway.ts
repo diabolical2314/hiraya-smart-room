@@ -1,15 +1,12 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 
-@WebSocketGateway({
-  cors: { origin: '*' }, // This allows your Vue app to connect without being blocked
-})
+@WebSocketGateway({ cors: true })
 export class SensorsGateway {
   @WebSocketServer()
-  server: Server;
+  server: Server | undefined;
 
-  // This function sends the data to your Vue dashboard
   sendUpdate(data: any) {
-    this.server.emit('sensor_update', data);
+    this.server?.emit('sensor_update', data);
   }
 }
