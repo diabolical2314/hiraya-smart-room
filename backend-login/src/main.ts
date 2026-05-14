@@ -7,6 +7,6 @@ async function bootstrap() {
   // ADD THIS LINE TO FIX THE CONNECTION ERROR
   app.enableCors(); 
 
-  await app.listen(3000); // Or whatever port your backend uses
+  await app.listen(3001); // Or whatever port your backend uses
 }
 bootstrap();

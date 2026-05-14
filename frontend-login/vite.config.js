@@ -15,4 +15,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    port: 5174, // Change this to your desired port
+    open: true, // Automatically open the browser
+  }
 })
